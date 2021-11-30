@@ -11,21 +11,28 @@ namespace Graphics
         {
             int res = 800;
             Bitmap block = new Bitmap(res, res);
-            Form form = new Form();
-            form.Text = "Graphics";
-            PictureBox pictureBox = new PictureBox();
-            pictureBox.Dock = DockStyle.Fill;
-            form.Controls.Add(pictureBox);
+           
             Color clrR = Color.FromArgb(255, 0, 0);
             Color clrG = Color.FromArgb(0, 255, 0);
             Color clrB = Color.FromArgb(0, 0, 255);
             Color clr0 = Color.FromArgb(0, 0, 0);
             Color clr1 = Color.FromArgb(255, 255, 255);
-            pictureBox.Image = block;
 
-            Point p1 = new Point();
-            Point p2 = new Point();
-            Point p3 = new Point();
+            int p1x = int.Parse(Console.ReadLine());
+            int p1y = int.Parse(Console.ReadLine());
+            Point p1 = new Point(p1x, p1y);
+            int p2x = int.Parse(Console.ReadLine());
+            int p2y = int.Parse(Console.ReadLine());
+            Point p2 = new Point(p2x, p2y);
+            int p3x = int.Parse(Console.ReadLine());
+            int p3y = int.Parse(Console.ReadLine());
+            Point p3 = new Point(p3x, p3y);
+            Form form = new Form();
+            form.Text = "Graphics";
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.Dock = DockStyle.Fill;
+            form.Controls.Add(pictureBox);
+            pictureBox.Image = block;
 
             DrawSquare(0, 0, 799, 799, clr0, block);
             DrawLine(p1, p2, 1, clrG, block);
@@ -33,7 +40,7 @@ namespace Graphics
             DrawLine(p3, p1, 1, clrB, block);
 
             Application.Run(form);
-
+            
         }
         static void DrawSquare(int x1, int y1, int x2, int y2, Color some_color, Bitmap bitmap)
         {
@@ -68,8 +75,6 @@ namespace Graphics
         public void Point()
         {
             int x, y;
-            x = int.Parse(Console.ReadLine());
-            y = int.Parse(Console.ReadLine());
         }
 
         static void DrawLine(Point p, Point p0, double threshold, Color someColor, Bitmap bitmap)
