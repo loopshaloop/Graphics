@@ -1,0 +1,106 @@
+using System;
+using System.Drawing;
+using System.Windows;
+using System.Windows.Forms;
+
+namespace Graphics
+{
+    class Graphics
+    {
+        static void Main(string[] args)
+        {
+            int res = 800;
+            Bitmap block = new Bitmap(res, res);
+            Form form = new Form();
+            form.Text = "Graphics";
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.Dock = DockStyle.Fill;
+            form.Controls.Add(pictureBox);
+            Color clrR = Color.FromArgb(255, 0, 0);
+            Color clrG = Color.FromArgb(0, 255, 0);
+            Color clrB = Color.FromArgb(0, 0, 255);
+            Color clr0 = Color.FromArgb(0, 0, 0);
+            Color clr1 = Color.FromArgb(255, 255, 255);
+            pictureBox.Image = block;
+
+            Point p1 = new Point();
+            Point p2 = new Point();
+            Point p3 = new Point();
+
+            DrawSquare(0, 0, 799, 799, clr0, block);
+            DrawLine(p1, p2, 1, clrG, block);
+            DrawLine(p2, p3, 1, clrR, block);
+            DrawLine(p3, p1, 1, clrB, block);
+
+            Application.Run(form);
+
+        }
+        static void DrawSquare(int x1, int y1, int x2, int y2, Color some_color, Bitmap bitmap)
+        {
+            if (x1 < x2 && y1 < y2)
+            {
+                for (int x = x1; x <= x2; x++)
+                {
+                    for (int y = y1; y <= y2; y++)
+                    {
+                        bitmap.SetPixel(x, y, some_color);
+                    }
+                }
+            }
+            if (x1 > x2 && y1 > y2)
+            {
+                int tmp_x = x1;
+                x1 = x2;
+                x2 = tmp_x;
+                int tmp_y = y1;
+                y1 = y2;
+                y2 = tmp_y;
+                for (int x = x1; x <= x2; x++)
+                {
+                    for (int y = y1; y <= y2; y++)
+                    {
+                        bitmap.SetPixel(x, y, some_color);
+                    }
+                }
+            }
+        }
+
+        public void Point()
+        {
+            int x, y;
+            x = int.Parse(Console.ReadLine());
+            y = int.Parse(Console.ReadLine());
+        }
+
+        static void DrawLine(Point p, Point p0, double threshold, Color someColor, Bitmap bitmap)
+        {
+            int intThreshold = (int)Math.Ceiling(threshold);
+            if (p.X == p0.X)
+            {
+                for (int x = p.X - intThreshold; x < p.X + intThreshold; x++)
+                {
+                    for (int y = Math.Min(p.Y, p0.Y); y < Math.Max(p.Y, p0.Y); y++)
+                    {
+                        bitmap.SetPixel(x, y, someColor);
+                    }
+                }
+            }
+
+            double a = (p.Y - p0.Y) / (double)(p0.X - p.X);
+            double b = 1;
+            double c = (p.X * (p0.Y - p.Y)) / (double)(p0.X - p.X) - p.Y;
+
+            for (int x = Math.Max(Math.Min(p.X, p0.X) - intThreshold, 0); x < Math.Min(Math.Max(p.X, p0.X), bitmap.Width) + intThreshold; x++)
+            {
+                for (int y = Math.Max(Math.Min(p.Y, p0.Y) - intThreshold, 0); y < Math.Min(Math.Max(p.Y, p0.Y) + intThreshold, bitmap.Height); y++)
+                {
+                    double d = Math.Abs(a * x + b * y + c) / Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
+                    if (d <= threshold)
+                    {
+                        bitmap.SetPixel(x, y, someColor);
+                    }
+                }
+            }
+        }
+    }
+}
